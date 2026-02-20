@@ -1,0 +1,123 @@
+<odoo>
+  <!-- Tag list View -->
+  <record id="view_todo_tag_list" model="ir.ui.view">
+      <field name="name">todo.tag.list</field>
+      <field name="model">todo.tag</field>
+      <field name="arch" type="xml">
+          <list>
+              <field name="name"/>
+          </list>
+      </field>
+  </record>
+
+  <!-- Tag Form View -->
+  <record id="view_todo_tag_form" model="ir.ui.view">
+      <field name="name">todo.tag.form</field>
+      <field name="model">todo.tag</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="name"/>
+                  <field name="color" widget="color_picker"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <!-- Tag Action -->
+  <record id="action_todo_tag" model="ir.actions.act_window">
+      <field name="name">Tags</field>
+      <field name="res_model">todo.tag</field>
+      <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- LIST VIEW -->
+  <record id="view_todolist_list" model="ir.ui.view">
+    <field name="name">todo.list.list</field>
+    <field name="model">todo.list</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="start_date"/>
+        <field name="end_date"/>
+        <field name="status"/>
+      </list>
+    </field>
+  </record>
+
+
+  <!-- FORM VIEW -->
+  <record id="view_todolist_form" model="ir.ui.view">
+    <field name="name">todo.list.form</field>
+    <field name="model">todo.list</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="status" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+
+          <button name="action_start" 
+                  type="object" 
+                  string="Start" 
+                  class="btn-primary" 
+                  invisible="status != 'draft'"/>
+
+          <button name="action_complete" 
+                  string="Complete" 
+                  class="btn-success" 
+                  type="object" 
+                  invisible="status != 'in_progress' or not all_lines_done"/>
+        </header>
+
+        <sheet>
+          <field name="all_lines_done" invisible="1"/>
+          <group>
+            <field name="name" readonly="status =='done'"/>
+            <field name="description" readonly="status =='done'"/>
+            <field name="tag_ids" widget="many2many_tags" readonly="status =='done'"/>
+            <field name="start_date" readonly="status =='done'"/>
+            <field name="end_date" readonly="status =='done' or not start_date" optional="{'datepicker': {'minDate': start_date}}"/>
+          </group>
+
+          <notebook>
+            <page string="Sub Lists">
+              <field name="line_ids">
+                <list editable="bottom" create = "status != 'done'" delete = "status != 'done'" edit = "status != 'done'">
+                  <field name="name"/>
+                  <field name="description"/>
+                  <field name="is_done" />
+                </list>
+              </field>
+            </page>
+
+            <page string="Attendees">
+              <field name="attendee_ids" readonly="status == 'done'"/>
+                <list editable="bottom" create = "status != 'done'" delete = "status != 'done'" edit = "status != 'done'">
+                  <field name="name"/>
+                </list>
+            </page>
+
+
+
+          </notebook>
+        </sheet>
+
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <!-- ACTION -->
+  <record id="action_todolist" model="ir.actions.act_window">
+    <field name="name">Lists</field>
+    <field name="res_model">todo.list</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- MENUS -->
+  <menuitem id="menu_todolist_root" name="To Do List"/>
+  <menuitem id="menu_todolist"
+            name="Lists"
+            parent="menu_todolist_root"
+            action="action_todolist"/>
+
+</odoo>

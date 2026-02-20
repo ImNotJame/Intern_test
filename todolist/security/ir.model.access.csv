@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_todolist_todolist,todo.list,model_todo_list,base.group_user,1,1,1,1
+access_todo_tag,todo.tag,model_todo_tag,base.group_user,1,1,1,1
+access_todo_list_line,todo.list.line,model_todo_listline,base.group_user,1,1,1,1

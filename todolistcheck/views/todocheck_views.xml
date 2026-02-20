@@ -1,0 +1,39 @@
+<odoo>
+    
+
+    <!-- Show all todolist -->
+    <record id= "action_view_all_todolist" model="ir.actions.act_window">
+        <field name="name">All Lists</field>
+        <field name="res_model">todo.list</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- Show all finished todolist -->
+    <record id= "action_view_finished_todolist" model="ir.actions.act_window">
+        <field name="name">Finished Lists</field>
+        <field name="res_model">todo.list</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('status', '=', 'done')]</field>
+    </record>
+
+
+    <!-- Show all unfinished todolist -->
+    <record id= "action_view_unfinished_todolist" model="ir.actions.act_window">
+        <field name="name">Unfinished Lists</field>
+        <field name="res_model">todo.list</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('status', '!=', 'done')]</field>
+    </record>
+
+
+    <!-- Menu -->
+    <menuitem id="menu_todolistcheck_root" name="To Do List Check" sequence="10"/>
+
+    <menuitem id="menu_todolistcheck_all" name="All Lists" parent="menu_todolistcheck_root" action="action_view_all_todolist" sequence ="10"/>
+    <menuitem id="menu_todolistcheck_finished" name="Finished Lists" parent="menu_todolistcheck_root" action="action_view_finished_todolist" sequence="20"/>
+    <menuitem id="menu_todolistcheck_unfinished" name="Unfinished Lists" parent="menu_todolistcheck_root" action="action_view_unfinished_todolist" sequence ="30"/>
+
+
+
+</odoo>
